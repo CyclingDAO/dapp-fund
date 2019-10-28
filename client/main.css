@@ -1,0 +1,58 @@
+.navbar {
+  margin-bottom: 20px;
+}
+
+.rank-group {
+  font-size: 14px;
+  line-height: 1.214;
+}
+
+.rank-title {
+  margin: 8px 0 8px;
+  font-size: 22px;
+  color: #2C3E50;
+}
+
+.list-group-item {
+  background-color: #34495e;
+  border-color: #2c3e50;
+  border-width: 2px 0px 0px 0px;
+  color: #95a5a6;
+}
+
+.rank-head {
+  color: #fff;
+}
+
+.rank-name {
+  margin: 1px 0 3px;
+  font-size: 18px;
+}
+
+.rank-icon {
+  float: left;
+  padding: 10px 22px 0 0;
+  font-size: 24px;
+}
+
+.rank-body {
+  margin-top: 10px;
+}
+
+.rank-first {
+  color: #16A085;
+  background-color: #2c3e50;
+}
+
+.rank-first .rank-name {
+  color: #16A085;
+}
+
+.rank-first .rank-icon {
+  color: #16A085;
+}
+
+.btn-claim {
+  /* border-radius: 0px 0px 4px 4px; */
+  font-size: 22px;
+}
