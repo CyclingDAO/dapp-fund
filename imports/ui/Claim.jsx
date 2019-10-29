@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 export default class Claim extends Component {
   handleClaim(event) {
     event.preventDefault();
+
+    if(ReactDOM.findDOMNode(this.refs.btnClaim).disabled) {
+      return
+    }
 
     if(this.props.contract) {
       this.props.contract.methods.claim().send({from: this.props.defaultAccount})
@@ -20,6 +25,7 @@ export default class Claim extends Component {
         <button
           className={btnClass}
           onClick={this.handleClaim.bind(this)}
+          ref="btnCliam"
         >
           <strong>Claim</strong>
         </button>
