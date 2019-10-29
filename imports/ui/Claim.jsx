@@ -25,7 +25,7 @@ export default class Claim extends Component {
         <button
           className={btnClass}
           onClick={this.handleClaim.bind(this)}
-          ref="btnCliam"
+          ref="btnClaim"
         >
           <strong>Claim</strong>
         </button>
