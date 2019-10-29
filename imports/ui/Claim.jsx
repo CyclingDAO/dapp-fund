@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 export default class Claim extends Component {
   handleClaim(event) {
     event.preventDefault();
-
-    if(ReactDOM.findDOMNode(this.refs.btnClaim).disabled) {
-      return
-    }
 
     if(this.props.contract) {
       this.props.contract.methods.claim().send({from: this.props.defaultAccount})
@@ -15,17 +10,18 @@ export default class Claim extends Component {
   }
 
   render() {
-    let btnClass = "btn btn-block btn-lg btn-primary disabled btn-claim";
+    let disabled = true;
     if (this.props.activityStatus === "Claim") {
-      btnClass = "btn btn-block btn-lg btn-primary btn-claim";
+      disabled = false;
     }
 
     return (
       <div className="container">
         <button
-          className={btnClass}
+          className="btn btn-block btn-lg btn-primary btn-claim"
           onClick={this.handleClaim.bind(this)}
           ref="btnClaim"
+          disabled={disabled}
         >
           <strong>Claim</strong>
         </button>
