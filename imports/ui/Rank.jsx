@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { memberAddrs } from '../config'
 
 export default class Rank extends Component {
   state = {
@@ -20,15 +19,12 @@ export default class Rank extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.members === null) {
-      this._loadAsyncData(this.props.contract, memberAddrs);
+      this._loadAsyncData(this.props.contract, this.props.memberAddrs);
     }
   }
 
   renderRank() {
-    let members = [];
-    if (this.state.members !== null) {
-      members = this.state.members;
-    }
+    let members = this.state.members ? this.state.members : [];
 
     // clean old activity km
     members.map((member) => {
@@ -39,7 +35,7 @@ export default class Rank extends Component {
 
     // rank sort
     members.sort((a, b) => {
-      if(~~b.activityKm === ~~a.activityKm) {
+      if (~~b.activityKm === ~~a.activityKm) {
         return (~~b.usedKm - ~~a.usedKm)
       }
       return (~~b.activityKm - ~~a.activityKm)
@@ -60,13 +56,17 @@ export default class Rank extends Component {
         iconClass = "rank-icon fui-star";
         iconNum = "";
       }
-      
-      const totalKm = ~~member.activityKm + ~~member.usedKm;
+
+      let checkClass = "rank-check fui-radio-unchecked";
+      if (member.isClaimed) {
+        checkClass = "rank-check fui-check-circle";
+      }
 
       return (
         <li key={num} className={liClass}>
           <div className="rank-head">
             <div className={iconClass}>{iconNum}</div>
+            <div className={checkClass} />
             <h5 className="rank-name">
               {member.name}
             </h5>
@@ -74,9 +74,8 @@ export default class Rank extends Component {
           <div className="rank-body">
             <span>Activity: </span>
             <span>{member.activityKm} km</span>
-            <span> </span>
-            <span>Total: </span>
-            <span>{totalKm} km</span>
+            <span className="rank-member-total">Total: </span>
+            <span>{member.usedKm} km</span>
           </div>
         </li>);
     });

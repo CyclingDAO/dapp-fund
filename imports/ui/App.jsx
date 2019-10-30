@@ -5,10 +5,12 @@ import Rank from './Rank.jsx';
 import Claim from './Claim.jsx';
 import Footer from './Footer.jsx';
 import Web3 from 'web3';
-import { fundAddr, fundAbi } from '../config'
+import { getNetworkConfigs, fundAbi } from '../config'
 
 class App extends Component {
   state = {
+    networkType: null,
+    memberAddrs: [],
     web3: null,
     contract: null,
     defaultAccount: null,
@@ -32,15 +34,21 @@ class App extends Component {
       const provider = window['ethereum'] || window.web3.currentProvider;
 
       // wallet
-      let web3 = new Web3(provider);
-      let defaultAccount = accounts[0];
+      const web3 = new Web3(provider);
+      const defaultAccount = accounts[0];
+
+      // networkType
+      const networkType = await web3.eth.net.getNetworkType();
+      const configs = getNetworkConfigs(networkType); 
 
       // contract
-      let contract = new web3.eth.Contract(fundAbi, fundAddr, {
+      let contract = new web3.eth.Contract(fundAbi, configs.fundAddr, {
         from: defaultAccount,
       });
 
       this.setState({
+        networkType: networkType,
+        memberAddrs: configs.memberAddrs,
         web3: web3,
         contract: contract,
         defaultAccount: defaultAccount,
@@ -56,12 +64,22 @@ class App extends Component {
   }
 
   render() {
+    let noteHidden = false;
+    if (this.state.networkType === "main") {
+      noteHidden = true;
+    }
+
     return (
       <div>
         <Nav
           defaultAccount={this.state.defaultAccount} 
           injectWeb3={this.injectWeb3}
         />
+        <div className="container" hidden={noteHidden}>
+          <div className="alert alert-warning" role="alert">
+            <small>Note: Testnet Network</small>
+          </div>
+        </div>
         <Headline 
           web3={this.state.web3}
           contract={this.state.contract}
@@ -70,6 +88,8 @@ class App extends Component {
         <Rank
           contract={this.state.contract}
           activityID={this.state.activityID}
+          activityStatus={this.state.activityStatus}
+          memberAddrs={this.state.memberAddrs}
         />
         <Claim
           contract={this.state.contract}
