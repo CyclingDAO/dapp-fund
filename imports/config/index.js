@@ -1,5 +1,6 @@
 const mainnet = {
   infura: "https://mainnet.infura.io/v3/b92e4e1fce4d446cbaaaa8b0422dba3b",
+  etherscan: "https://etherscan.io/",
   fundAddr: "",
   memberAddrs: [
   ],
@@ -7,7 +8,8 @@ const mainnet = {
 
 const kovan = {
   infura: "https://kovan.infura.io/",
-  fundAddr: "0xE3c02E78BbD3CDc7A2850bB19721f3D8D2aE48Ce",
+  etherscan: "https://kovan.etherscan.io/",
+  fundAddr: "0xC9905dD9e5a4ac023e0f59F59B209F55bCcF1F91",
   memberAddrs: [
     "0xDc19464589c1cfdD10AEdcC1d09336622b282652", // outprog
     "0x82ee9EFc6d35FbFa0342FA00C0dd12b39Ab528bA", // haibin

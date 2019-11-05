@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Nav from './Nav.jsx';
+import Alert from './Alert.jsx';
 import Headline from './Headline.jsx';
 import Rank from './Rank.jsx';
 import Claim from './Claim.jsx';
@@ -10,11 +11,14 @@ import { getNetworkConfigs, fundAbi } from '../config'
 class App extends Component {
   state = {
     networkType: null,
+    etherscan: null,
     memberAddrs: [],
     web3: null,
     contract: null,
     defaultAccount: null,
     activityStatus: "End",
+    noteHidden: true,
+    noteMessage: "",
   }
 
   componentDidMount() {
@@ -46,12 +50,25 @@ class App extends Component {
         from: defaultAccount,
       });
 
+      // network note
+      let noteHidden = true;
+      if (networkType !== "main") {
+        noteHidden = false;
+      }
+      let noteMessage = "Note: Testnet Network";
+      if (networkType !== "kovan") {
+        noteMessage = "Note: Not Support Network";
+      }
+
       this.setState({
         networkType: networkType,
+        etherscan: configs.etherscan,
         memberAddrs: configs.memberAddrs,
         web3: web3,
         contract: contract,
         defaultAccount: defaultAccount,
+        noteHidden: noteHidden,
+        noteMessage: noteMessage,
       });
     }
   }
@@ -63,11 +80,11 @@ class App extends Component {
     });
   }
 
+  changeNoteHidden = (hidden) => {
+    this.setState({noteHidden: hidden});
+  }
+
   render() {
-    let noteHidden = false;
-    if (this.state.networkType === "main") {
-      noteHidden = true;
-    }
 
     return (
       <div>
@@ -75,28 +92,32 @@ class App extends Component {
           defaultAccount={this.state.defaultAccount} 
           injectWeb3={this.injectWeb3}
         />
-        <div className="container" hidden={noteHidden}>
-          <div className="alert alert-warning" role="alert">
-            <small>Note: Testnet Network</small>
-          </div>
+        <div className="container">
+          <Alert
+            hidden={this.state.noteHidden}
+            type="warning"
+            message={this.state.noteMessage}
+            setHidden={this.changeNoteHidden}
+          />
+          <Headline 
+            web3={this.state.web3}
+            contract={this.state.contract}
+            changeAppState={this.changeAppState}
+          />
+          <Rank
+            contract={this.state.contract}
+            activityID={this.state.activityID}
+            activityStatus={this.state.activityStatus}
+            memberAddrs={this.state.memberAddrs}
+          />
+          <Claim
+            etherscan={this.state.etherscan}
+            contract={this.state.contract}
+            defaultAccount={this.state.defaultAccount} 
+            activityStatus={this.state.activityStatus}
+          />
+          <Footer />
         </div>
-        <Headline 
-          web3={this.state.web3}
-          contract={this.state.contract}
-          changeAppState={this.changeAppState}
-        />
-        <Rank
-          contract={this.state.contract}
-          activityID={this.state.activityID}
-          activityStatus={this.state.activityStatus}
-          memberAddrs={this.state.memberAddrs}
-        />
-        <Claim
-          contract={this.state.contract}
-          defaultAccount={this.state.defaultAccount} 
-          activityStatus={this.state.activityStatus}
-        />
-        <Footer />
       </div>
     )
   }

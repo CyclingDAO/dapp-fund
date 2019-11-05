@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import Alert from './Alert.jsx'
 
 export default class Claim extends Component {
   state = {
     isLoading: false,
+
+    alertHidden: true,
+    alertType: "success",
+    alertMessage: "message",
+    alertLink: null,
   }
 
   handleClaim(event) {
@@ -14,12 +20,38 @@ export default class Claim extends Component {
       this.props.contract.methods.claim()
         .send({from: this.props.defaultAccount})
         .on('confirmation', (confirmationNumber, receipt) => {
-          this.setState({isLoading: false});
+          console.log(receipt);
+          this.setState({
+            isLoading: false,
+            alertHidden: false,
+            alertType: "success",
+            alertMessage: "Claim Success!",
+            alertLink: {
+              href: this.props.etherscan + "tx/" + receipt.transactionHash,
+              value: "tx link",
+            },
+          });
         })
-        .on('error', () => {
-          this.setState({isLoading: false});
+        .on('error', (e) => {
+          let alertType = "danger"
+          let alertMessage = "Claim Failed!"
+          if (e.code === 4001) {
+            alertType = "warning"
+            alertMessage = "Claim Cancelled!"
+          }
+          this.setState({
+            isLoading: false,
+            alertHidden: false,
+            alertType: alertType,
+            alertMessage: alertMessage,
+            alertLink: null,
+          });
         });
     }
+  }
+
+  changeAlertHidden = (hidden) => {
+    this.setState({alertHidden: hidden});
   }
 
   render() {
@@ -33,7 +65,14 @@ export default class Claim extends Component {
     }
 
     return (
-      <div className="container">
+      <div>
+        <Alert
+          hidden={this.state.alertHidden}
+          type={this.state.alertType}
+          message={this.state.alertMessage}
+          link={this.state.alertLink}
+          setHidden={this.changeAlertHidden}
+        />
         <button
           className="btn btn-block btn-lg btn-primary btn-claim"
           onClick={this.handleClaim.bind(this)}

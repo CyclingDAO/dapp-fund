@@ -84,11 +84,9 @@ export default class Rank extends Component {
 
   render() {
     return (
-      <div className="container">
-        <ul className="list-group rank-group">
-          {this.renderRank()}
-        </ul>
-      </div>
+      <ul className="list-group rank-group">
+        {this.renderRank()}
+      </ul>
     );
   }
 
