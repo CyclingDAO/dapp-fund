@@ -25,19 +25,19 @@ export default class Claim extends Component {
             isLoading: false,
             alertHidden: false,
             alertType: "success",
-            alertMessage: "Claim Success!",
+            alertMessage: "领取成功！",
             alertLink: {
               href: this.props.etherscan + "tx/" + receipt.transactionHash,
-              value: "tx link",
+              value: "查看交易",
             },
           });
         })
         .on('error', (e) => {
           let alertType = "danger"
-          let alertMessage = "Claim Failed!"
+          let alertMessage = "领取失败！"
           if (e.code === 4001) {
             alertType = "warning"
-            alertMessage = "Claim Cancelled!"
+            alertMessage = "操作取消"
           }
           this.setState({
             isLoading: false,
@@ -56,13 +56,14 @@ export default class Claim extends Component {
 
   render() {
     let disabled = true;
-    if (this.props.activityStatus === "Claim") {
+    if (this.props.activityStatus === "领奖") {
       disabled = false;
     }
 
     if (this.state.isLoading) {
       disabled = true;
     }
+    console.log(disabled);
 
     return (
       <div>
@@ -80,7 +81,7 @@ export default class Claim extends Component {
           disabled={disabled}
         >
           <strong>
-            {this.state.isLoading ? 'Loading...' : 'Claim'}
+            {this.state.isLoading ? '交 易 中 ...' : '领 取'}
           </strong>
         </button>
       </div>

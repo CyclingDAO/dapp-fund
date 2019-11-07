@@ -29,17 +29,17 @@ export default class Headline extends Component {
   render() {
     return (
       <div className="tile">
-        <h2>
+        <h3>
           <img src="./img/icons/svg/map.svg" />
           {this.state.activityStatus}
-        </h2>
+        </h3>
         <span>
-          <small>Reward:
+          <small>奖金: 
             <strong> {parseFloat(this.state.totalReward).toFixed(2)} ETH</strong>
           </small>
           <span> 	&#128692; </span>
-          <small>Km:
-            <strong> {this.state.activityTotalKm}</strong>
+          <small>总里程: 
+            <strong> {this.state.activityTotalKm} km</strong>
           </small>
         </span>
       </div>
@@ -69,13 +69,13 @@ export default class Headline extends Component {
   _switchActivityStatus(status) {
     switch (status) {
       case "0": {
-        return "End";
+        return "结束";
       }
       case "1": {
-        return "Start";
+        return "进行中";
       }
       case "2": {
-        return "Claim";
+        return "领奖";
       }
       default: {
         return "...";
