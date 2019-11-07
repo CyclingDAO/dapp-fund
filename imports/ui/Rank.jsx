@@ -74,7 +74,7 @@ export default class Rank extends Component {
           <div className="rank-body">
             <span>活动: </span>
             <span>{member.activityKm} km</span>
-            <span className="rank-member-total">总计: </span>
+            <span className="rank-member-total">历史: </span>
             <span>{member.usedKm} km</span>
           </div>
         </li>);
