@@ -4,6 +4,7 @@ import Alert from './Alert.jsx';
 import Headline from './Headline.jsx';
 import Rank from './Rank.jsx';
 import Claim from './Claim.jsx';
+import Donate from './Donate';
 import Footer from './Footer.jsx';
 import Web3 from 'web3';
 import { getNetworkConfigs, fundAbi } from '../config'
@@ -19,6 +20,7 @@ class App extends Component {
     activityStatus: "End",
     noteHidden: true,
     noteMessage: "",
+    donateAddr: "",
   }
 
   componentDidMount() {
@@ -69,6 +71,7 @@ class App extends Component {
         defaultAccount: defaultAccount,
         noteHidden: noteHidden,
         noteMessage: noteMessage,
+        donateAddr: configs.fundAddr,
       });
     }
   }
@@ -113,6 +116,14 @@ class App extends Component {
           <Claim
             etherscan={this.state.etherscan}
             contract={this.state.contract}
+            defaultAccount={this.state.defaultAccount} 
+            activityStatus={this.state.activityStatus}
+          />
+          <hr/>
+          <Donate
+            donateAddr={this.state.donateAddr}
+            web3={this.state.web3}
+            etherscan={this.state.etherscan}
             defaultAccount={this.state.defaultAccount} 
             activityStatus={this.state.activityStatus}
           />
